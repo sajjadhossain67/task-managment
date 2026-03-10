@@ -7,7 +7,7 @@ import { KanbanBoard } from "./kanban-board";
 import { TaskTableSkeleton } from "./task-table-skeleton";
 import { CreateTaskDialog } from "./create-task-dialog";
 import { Button } from "@/components/ui/button";
-import { useTasks, useUsers } from "@/hooks/use-tasks";
+import { useDashboard } from "@/hooks/use-dashboard";
 import {
   Plus,
   LayoutList,
@@ -23,16 +23,13 @@ export function DashboardClient() {
   const [createOpen, setCreateOpen] = useState(false);
 
   const {
-    data: tasks,
-    isLoading: tasksLoading,
+    tasks,
+    users,
+    isLoading,
     isError: tasksError,
     refetch,
     isFetching,
-  } = useTasks();
-
-  const { data: users = [], isLoading: usersLoading } = useUsers();
-
-  const isLoading = tasksLoading || usersLoading;
+  } = useDashboard();
 
   return (
     <div className="w-full space-y-6">

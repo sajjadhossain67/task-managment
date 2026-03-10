@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ import type {
   FilterStatus,
   FilterPriority,
 } from "@/lib/types";
+import { useTaskFilter } from "@/hooks/use-task-filter";
 
 import {
   Pencil,
@@ -134,67 +135,25 @@ function UserAvatar({ userId, users }: { userId: number; users: User[] }) {
 }
 
 export function TaskTable({ tasks, users }: TaskTableProps) {
-  const [search, setSearch] = useState("");
-  const [filterStatus, setFilterStatus] = useState<FilterStatus>("all");
-  const [filterPriority, setFilterPriority] = useState<FilterPriority>("all");
-  const [sortField, setSortField] = useState<SortField>("id");
-  const [sortDir, setSortDir] = useState<SortDirection>("asc");
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  const {
+    search,
+    filterStatus,
+    filterPriority,
+    sortField,
+    sortDir,
+    page,
+    filtered,
+    paginated,
+    totalPages,
+    setSearch,
+    setFilterStatus,
+    setFilterPriority,
+    handleSort,
+    setPage,
+  } = useTaskFilter(tasks);
 
   const [editTask, setEditTask] = useState<Task | null>(null);
   const [deleteTask, setDeleteTask] = useState<Task | null>(null);
-
-  const filtered = useMemo(() => {
-    let result = tasks;
-
-    if (search.trim()) {
-      const q = search.toLowerCase();
-
-      result = result.filter(
-        (t) =>
-          t.title.toLowerCase().includes(q) ||
-          t.body.toLowerCase().includes(q) ||
-          String(t.id).includes(q),
-      );
-    }
-
-    if (filterStatus !== "all") {
-      result = result.filter((t) => t.status === filterStatus);
-    }
-
-    if (filterPriority !== "all") {
-      result = result.filter((t) => t.priority === filterPriority);
-    }
-
-    result = [...result].sort((a, b) => {
-      let aVal: any = a[sortField] ?? "";
-      let bVal: any = b[sortField] ?? "";
-
-      if (typeof aVal === "string") aVal = aVal.toLowerCase();
-      if (typeof bVal === "string") bVal = bVal.toLowerCase();
-
-      if (aVal < bVal) return sortDir === "asc" ? -1 : 1;
-      if (aVal > bVal) return sortDir === "asc" ? 1 : -1;
-
-      return 0;
-    });
-
-    return result;
-  }, [tasks, search, filterStatus, filterPriority, sortField, sortDir]);
-
-  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
-  const paginated = filtered.slice((page - 1) * pageSize, page * pageSize);
-
-  const handleSort = (field: SortField) => {
-    if (sortField === field) {
-      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
-    } else {
-      setSortField(field);
-      setSortDir("asc");
-    }
-    setPage(1);
-  };
 
   const ColHeader = ({
     field,
@@ -222,20 +181,14 @@ export function TaskTable({ tasks, users }: TaskTableProps) {
             <Input
               placeholder="Search tasks..."
               value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setPage(1);
-              }}
+              onChange={(e) => setSearch(e.target.value)}
               className="pl-9"
             />
           </div>
 
           <Select
             value={filterStatus}
-            onValueChange={(v) => {
-              setFilterStatus(v as FilterStatus);
-              setPage(1);
-            }}
+            onValueChange={(v) => setFilterStatus(v as FilterStatus)}
           >
             <SelectTrigger className="w-35">
               <SelectValue placeholder="Status" />
@@ -250,10 +203,7 @@ export function TaskTable({ tasks, users }: TaskTableProps) {
 
           <Select
             value={filterPriority}
-            onValueChange={(v) => {
-              setFilterPriority(v as FilterPriority);
-              setPage(1);
-            }}
+            onValueChange={(v) => setFilterPriority(v as FilterPriority)}
           >
             <SelectTrigger className="w-35">
               <SelectValue placeholder="Priority" />

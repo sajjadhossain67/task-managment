@@ -1,10 +1,10 @@
 "use client";
 
-import { useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Progress } from "@/components/ui/progress";
 import type { Task } from "@/lib/types";
+import { useTaskStats } from "@/hooks/use-task-stats";
 import {
   CheckCircle2,
   Clock,
@@ -20,17 +20,7 @@ interface StatsCardsProps {
 }
 
 export function StatsCards({ tasks, isLoading }: StatsCardsProps) {
-  const stats = useMemo(() => {
-    if (!tasks) return null;
-    const total = tasks.length;
-    const done = tasks.filter((t) => t.status === "done").length;
-    const inProgress = tasks.filter((t) => t.status === "in-progress").length;
-    const todo = tasks.filter((t) => t.status === "todo").length;
-    const high = tasks.filter((t) => t.priority === "high").length;
-    const uniqueUsers = new Set(tasks.map((t) => t.userId)).size;
-    const completionRate = total > 0 ? Math.round((done / total) * 100) : 0;
-    return { total, done, inProgress, todo, high, uniqueUsers, completionRate };
-  }, [tasks]);
+  const stats = useTaskStats(tasks);
 
   if (isLoading) {
     return (

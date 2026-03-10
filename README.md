@@ -3,10 +3,11 @@
 <div align="center">
 
 ![Next.js](https://img.shields.io/badge/Next.js_16-black?style=for-the-badge&logo=next.js&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript_5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS_v4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 ![TanStack Query](https://img.shields.io/badge/TanStack_Query_v5-FF4154?style=for-the-badge&logo=reactquery&logoColor=white)
 ![Axios](https://img.shields.io/badge/Axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white)
+![React 19](https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 
 A professional, fully-featured **Task Management Dashboard** built with the Next.js App Router, TanStack Query v5, and a hand-crafted shadcn/ui design system — using [JSONPlaceholder](https://jsonplaceholder.typicode.com/) as a mock CRUD API.
 
@@ -16,7 +17,7 @@ A professional, fully-featured **Task Management Dashboard** built with the Next
 
 ## 📸 Overview
 
-> **Deep Charcoal + Electric Blue** theme · Dual Table/Kanban views · Full CRUD with optimistic updates · Responsive across all screen sizes
+> **Deep Charcoal + Electric Blue** theme · Dual Table/Kanban views · Full CRUD with optimistic updates · Custom hooks architecture · Responsive across all screen sizes
 
 ---
 
@@ -35,6 +36,7 @@ A professional, fully-featured **Task Management Dashboard** built with the Next
 
 - **Server Components** — `layout.tsx` and `page.tsx` handle metadata and the static shell with zero client JS
 - **Client Components** — all interactive elements use `"use client"` with a clean component boundary
+- **Custom Hooks** — domain logic extracted from components into dedicated, reusable hooks (`useDashboard`, `useTaskFilter`, `useTaskStats`)
 - **TanStack Query v5** — `useQuery` for data fetching; `useMutation` with `onMutate` / `onError` / `onSuccess` lifecycle for full optimistic updates
 - **Optimistic UI** — every Create, Update, and Delete is reflected in the UI instantly, before the API responds, with automatic rollback on failure
 
@@ -147,6 +149,9 @@ src/
 │
 ├── hooks/
 │   ├── use-tasks.ts                # useQuery + useMutation hooks (CRUD)
+│   ├── use-dashboard.ts            # Composition hook — combines tasks + users queries
+│   ├── use-task-filter.ts          # Filter, sort, and paginate logic for TaskTable
+│   ├── use-task-stats.ts           # Derives KPI stats from task array
 │   └── use-toast.ts                # Global toast state manager
 │
 └── lib/
@@ -155,6 +160,20 @@ src/
     ├── types.ts                    # Shared TypeScript interfaces & enums
     └── utils.ts                    # cn() class-name utility
 ```
+
+---
+
+## 🪝 Custom Hooks
+
+| Hook                    | Purpose                                                                                                    |
+| ----------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `useDashboard`          | Composition hook wrapping `useTasks` + `useUsers`, exposes unified `isLoading` / `isError` state           |
+| `useTaskFilter`         | Encapsulates all filter, sort, and pagination state for the task table — each setter auto-resets to page 1 |
+| `useTaskStats`          | Derives KPI stats (totals, completion rate, unique users) from a task array via `useMemo`                  |
+| `useTasks` / `useUsers` | TanStack Query wrappers for `/posts` and `/users` endpoints                                                |
+| `useCreateTask`         | Optimistic mutation — adds task to cache immediately, rolls back on error                                  |
+| `useUpdateTask`         | Optimistic mutation — patches task in cache, rolls back on error                                           |
+| `useDeleteTask`         | Optimistic mutation — removes task from cache, rolls back on error                                         |
 
 ---
 
