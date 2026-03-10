@@ -24,12 +24,12 @@ A professional, fully-featured **Task Management Dashboard** built with the Next
 
 ### 🗂️ Core CRUD
 
-| Operation  | Detail |
-| ---------- | ------ |
+| Operation  | Detail                                                                                                          |
+| ---------- | --------------------------------------------------------------------------------------------------------------- |
 | **Read**   | Fetches 100 posts from `/posts` and enriches them as typed `Task` objects with status, priority, and timestamps |
-| **Create** | "New Task" button opens a shadcn `Dialog` with a fully validated form (zod + react-hook-form) |
-| **Update** | Edit icon opens a pre-filled Dialog; status can also be changed inline via the Kanban dropdown |
-| **Delete** | Trash icon triggers a Confirmation Dialog before permanently removing the task |
+| **Create** | "New Task" button opens a shadcn `Dialog` with a fully validated form (zod + react-hook-form)                   |
+| **Update** | Edit icon opens a pre-filled Dialog; status can also be changed inline via the Kanban dropdown                  |
+| **Delete** | Trash icon triggers a Confirmation Dialog before permanently removing the task                                  |
 
 ### 🏗️ Architecture
 
@@ -59,16 +59,16 @@ A professional, fully-featured **Task Management Dashboard** built with the Next
 
 ## 🚀 Tech Stack
 
-| Layer          | Technology                          |
-| -------------- | ----------------------------------- |
-| Framework      | Next.js 16 (App Router)             |
-| Language       | TypeScript 5                        |
-| Styling        | Tailwind CSS v4                     |
-| UI Primitives  | Radix UI / shadcn/ui                |
-| Data Fetching  | TanStack Query v5 + Axios           |
-| Form Handling  | react-hook-form + zod               |
-| Icons          | lucide-react                        |
-| API            | JSONPlaceholder (mock REST API)     |
+| Layer         | Technology                      |
+| ------------- | ------------------------------- |
+| Framework     | Next.js 16 (App Router)         |
+| Language      | TypeScript 5                    |
+| Styling       | Tailwind CSS v4                 |
+| UI Primitives | Radix UI / shadcn/ui            |
+| Data Fetching | TanStack Query v5 + Axios       |
+| Form Handling | react-hook-form + zod           |
+| Icons         | lucide-react                    |
+| API           | JSONPlaceholder (mock REST API) |
 
 ---
 

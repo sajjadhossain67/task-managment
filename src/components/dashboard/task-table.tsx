@@ -32,7 +32,6 @@ import {
   ChevronLeft,
   ChevronRight,
   AlertCircle,
-  User as UserIcon,
 } from "lucide-react";
 
 const PAGE_SIZE_OPTIONS = [10, 20, 50];
@@ -307,24 +306,34 @@ export function TaskTable({ tasks, users, isLoading }: TaskTableProps) {
             <tbody>
               {paginated.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-16 text-center">
+                  <td colSpan={7} className="px-4 py-20 text-center">
                     <div className="flex flex-col items-center gap-3">
-                      <div className="p-4 rounded-full bg-[#1e2533]">
-                        <AlertCircle className="w-8 h-8 text-[#4a5568]" />
+                      <div className="p-4 rounded-2xl bg-[#161b27] border border-[#2a3347]">
+                        <AlertCircle className="w-8 h-8 text-[#374159]" />
                       </div>
-                      <p className="text-[#64748b] text-sm">
-                        {search ||
-                        filterStatus !== "all" ||
-                        filterPriority !== "all"
-                          ? "No tasks match your filters"
-                          : "No tasks found"}
-                      </p>
+                      <div>
+                        <p className="text-[#64748b] text-sm font-medium">
+                          {search ||
+                          filterStatus !== "all" ||
+                          filterPriority !== "all"
+                            ? "No tasks match your filters"
+                            : "No tasks found"}
+                        </p>
+                        {(search ||
+                          filterStatus !== "all" ||
+                          filterPriority !== "all") && (
+                          <p className="text-[#4a5568] text-xs mt-1">
+                            Try adjusting your search or filters
+                          </p>
+                        )}
+                      </div>
                       {(search ||
                         filterStatus !== "all" ||
                         filterPriority !== "all") && (
                         <Button
                           variant="ghost"
                           size="sm"
+                          className="text-[#60a5fa] hover:text-[#93c5fd] hover:bg-[#3b82f6]/10"
                           onClick={() => {
                             setSearch("");
                             setFilterStatus("all");
@@ -338,10 +347,10 @@ export function TaskTable({ tasks, users, isLoading }: TaskTableProps) {
                   </td>
                 </tr>
               ) : (
-                paginated.map((task, idx) => (
+                paginated.map((task) => (
                   <tr
                     key={task.id}
-                    className="border-b border-[#1e2533] last:border-0 hover:bg-[#1e2533]/50 transition-colors duration-150 group"
+                    className="border-b border-[#1a1f2e] last:border-0 hover:bg-[#1e2533]/60 transition-colors duration-100 group"
                   >
                     {/* ID */}
                     <td className="px-4 py-3.5">

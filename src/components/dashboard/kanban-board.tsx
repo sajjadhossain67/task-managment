@@ -112,11 +112,11 @@ function TaskCard({
 
   return (
     <Card
-      className={`border-l-4 ${PRIORITY_COLORS[task.priority]} border-[#2a3347] bg-[#1a1f2e] hover:bg-[#1e2533] cursor-default transition-colors group`}
+      className={`border-l-4 ${PRIORITY_COLORS[task.priority]} border-[#2a3347] bg-[#1a1f2e] hover:bg-[#1e2533] hover:border-[#374159] cursor-default transition-all duration-150 group shadow-sm hover:shadow-md hover:shadow-black/20`}
     >
-      <CardContent className="p-3">
+      <CardContent className="p-3.5">
         <div className="flex items-start justify-between gap-2">
-          <p className="text-sm font-medium text-[#f1f5f9] line-clamp-2 flex-1">
+          <p className="text-sm font-medium text-[#e2e8f0] line-clamp-2 flex-1 leading-snug">
             {task.title}
           </p>
           <DropdownMenu>
@@ -208,7 +208,7 @@ export function KanbanBoard({ tasks, users }: KanbanBoardProps) {
             <div key={col.key} className="flex flex-col gap-3">
               {/* Column header */}
               <div
-                className={`flex items-center justify-between px-3 py-2 rounded-xl border ${col.borderColor} ${col.bgColor}`}
+                className={`flex items-center justify-between px-3 py-2.5 rounded-xl border ${col.borderColor} ${col.bgColor}`}
               >
                 <div className="flex items-center gap-2">
                   <col.icon className={`w-4 h-4 ${col.color}`} />
@@ -217,17 +217,18 @@ export function KanbanBoard({ tasks, users }: KanbanBoardProps) {
                   </span>
                 </div>
                 <span
-                  className={`text-xs font-bold px-2 py-0.5 rounded-full ${col.bgColor} ${col.color} border ${col.borderColor}`}
+                  className={`text-xs font-bold min-w-[1.5rem] text-center px-2 py-0.5 rounded-full ${col.bgColor} ${col.color} border ${col.borderColor}`}
                 >
                   {colTasks.length}
                 </span>
               </div>
 
               {/* Cards */}
-              <div className="flex flex-col gap-2 min-h-[120px]">
+              <div className="flex flex-col gap-2 min-h-[200px]">
                 {colTasks.length === 0 ? (
-                  <div className="flex items-center justify-center h-20 rounded-xl border border-dashed border-[#2a3347] text-[#4a5568] text-xs">
-                    No tasks
+                  <div className="flex flex-col items-center justify-center h-24 rounded-xl border border-dashed border-[#2a3347] gap-2">
+                    <col.icon className={`w-5 h-5 ${col.color} opacity-30`} />
+                    <p className="text-[#4a5568] text-xs">No tasks here</p>
                   </div>
                 ) : (
                   colTasks.map((task) => (

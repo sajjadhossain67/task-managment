@@ -95,23 +95,27 @@ export function StatsCards({ tasks, isLoading }: StatsCardsProps) {
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
         {cards.map((card) => (
           <Card
             key={card.label}
-            className={`border ${card.border} bg-[#161b27] hover:bg-[#1e2533] transition-colors duration-200 animate-fade-in`}
+            className={`border ${card.border} bg-[#161b27] hover:bg-[#1a2030] transition-all duration-200 animate-fade-in group cursor-default`}
           >
             <CardContent className="p-4">
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="text-xs text-[#64748b] font-medium uppercase tracking-wider">
+              <div className="flex items-start justify-between gap-2">
+                <div className="min-w-0">
+                  <p className="text-[10px] text-[#4a5568] font-semibold uppercase tracking-widest truncate">
                     {card.label}
                   </p>
-                  <p className={`text-2xl font-bold mt-1 ${card.color}`}>
+                  <p
+                    className={`text-[1.6rem] font-extrabold mt-1 leading-none ${card.color}`}
+                  >
                     {card.value}
                   </p>
                 </div>
-                <div className={`p-2 rounded-lg ${card.bg}`}>
+                <div
+                  className={`p-2 rounded-lg ${card.bg} flex-shrink-0 group-hover:scale-110 transition-transform duration-200`}
+                >
                   <card.icon className={`w-4 h-4 ${card.color}`} />
                 </div>
               </div>
@@ -123,20 +127,25 @@ export function StatsCards({ tasks, isLoading }: StatsCardsProps) {
       {/* Completion progress bar */}
       {stats && (
         <div className="rounded-xl border border-[#2a3347] bg-[#161b27] p-4 animate-fade-in">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-[#60a5fa]" />
-              <span className="text-sm font-medium text-[#94a3b8]">
+              <span className="text-sm font-semibold text-[#94a3b8]">
                 Overall Completion
               </span>
             </div>
-            <span className="text-sm font-bold text-[#60a5fa]">
-              {stats.completionRate}%
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-[#64748b]">
+                {stats.done}/{stats.total}
+              </span>
+              <span className="text-sm font-bold text-[#60a5fa] tabular-nums">
+                {stats.completionRate}%
+              </span>
+            </div>
           </div>
           <Progress value={stats.completionRate} className="h-2" />
-          <p className="text-xs text-[#64748b] mt-2">
-            {stats.done} of {stats.total} tasks completed
+          <p className="text-xs text-[#4a5568] mt-2">
+            {stats.inProgress} in progress · {stats.todo} remaining
           </p>
         </div>
       )}

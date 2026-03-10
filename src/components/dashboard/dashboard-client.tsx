@@ -39,13 +39,22 @@ export function DashboardClient() {
       {/* Page header */}
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-[#f1f5f9]">Task Board</h2>
+          <div className="flex items-center gap-3">
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-[#f1f5f9] via-[#e2e8f0] to-[#94a3b8] bg-clip-text text-transparent">
+              Task Board
+            </h2>
+            {tasks && (
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#3b82f6]/15 text-[#60a5fa] border border-[#3b82f6]/25">
+                {tasks.length} tasks
+              </span>
+            )}
+          </div>
           <p className="text-sm text-[#64748b] mt-1">
             Manage, track, and organize your tasks across all projects
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           {/* Refresh */}
           <Button
             variant="outline"
@@ -53,6 +62,7 @@ export function DashboardClient() {
             onClick={() => refetch()}
             disabled={isFetching}
             title="Refresh data"
+            className="h-9 w-9"
           >
             <RefreshCw
               className={`w-4 h-4 ${isFetching ? "animate-spin" : ""}`}
@@ -60,31 +70,35 @@ export function DashboardClient() {
           </Button>
 
           {/* View toggle */}
-          <div className="flex items-center rounded-lg border border-[#2a3347] bg-[#161b27] p-0.5">
-            <Button
-              variant={viewMode === "table" ? "default" : "ghost"}
-              size="sm"
-              className="h-7 px-3 text-xs"
+          <div className="flex items-center rounded-lg border border-[#2a3347] bg-[#0f1117] p-0.5 gap-0.5">
+            <button
+              className={`flex items-center gap-1.5 h-8 px-3 text-xs font-medium rounded-md transition-all duration-150 ${
+                viewMode === "table"
+                  ? "bg-[#3b82f6] text-white shadow-sm"
+                  : "text-[#64748b] hover:text-[#94a3b8] hover:bg-[#1e2533]"
+              }`}
               onClick={() => setViewMode("table")}
             >
-              <LayoutList className="w-3.5 h-3.5 mr-1.5" />
+              <LayoutList className="w-3.5 h-3.5" />
               Table
-            </Button>
-            <Button
-              variant={viewMode === "kanban" ? "default" : "ghost"}
-              size="sm"
-              className="h-7 px-3 text-xs"
+            </button>
+            <button
+              className={`flex items-center gap-1.5 h-8 px-3 text-xs font-medium rounded-md transition-all duration-150 ${
+                viewMode === "kanban"
+                  ? "bg-[#3b82f6] text-white shadow-sm"
+                  : "text-[#64748b] hover:text-[#94a3b8] hover:bg-[#1e2533]"
+              }`}
               onClick={() => setViewMode("kanban")}
             >
-              <Columns3 className="w-3.5 h-3.5 mr-1.5" />
+              <Columns3 className="w-3.5 h-3.5" />
               Kanban
-            </Button>
+            </button>
           </div>
 
           {/* Create button */}
           <Button
             onClick={() => setCreateOpen(true)}
-            className="shadow-lg shadow-blue-500/20"
+            className="shadow-lg shadow-blue-500/20 font-semibold"
           >
             <Plus className="w-4 h-4 mr-1.5" />
             New Task
