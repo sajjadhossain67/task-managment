@@ -99,7 +99,7 @@ export function StatsCards({ tasks, isLoading }: StatsCardsProps) {
         {cards.map((card) => (
           <Card
             key={card.label}
-            className={`border ${card.border} bg-[#161b27] hover:bg-[#1a2030] transition-all duration-200 animate-fade-in group cursor-default`}
+            className={`border ${card.border} bg-surface hover:bg-[#1a2030] transition-all duration-200 animate-fade-in group cursor-default`}
           >
             <CardContent className="p-4">
               <div className="flex items-start justify-between gap-2">
@@ -114,7 +114,7 @@ export function StatsCards({ tasks, isLoading }: StatsCardsProps) {
                   </p>
                 </div>
                 <div
-                  className={`p-2 rounded-lg ${card.bg} flex-shrink-0 group-hover:scale-110 transition-transform duration-200`}
+                  className={`p-2 rounded-lg ${card.bg} shrink-0 group-hover:scale-110 transition-transform duration-200`}
                 >
                   <card.icon className={`w-4 h-4 ${card.color}`} />
                 </div>
@@ -126,19 +126,19 @@ export function StatsCards({ tasks, isLoading }: StatsCardsProps) {
 
       {/* Completion progress bar */}
       {stats && (
-        <div className="rounded-xl border border-[#2a3347] bg-[#161b27] p-4 animate-fade-in">
+        <div className="rounded-xl border border-border bg-surface p-4 animate-fade-in">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-[#60a5fa]" />
-              <span className="text-sm font-semibold text-[#94a3b8]">
+              <TrendingUp className="w-4 h-4 text-electric-blue-light" />
+              <span className="text-sm font-semibold text-text-secondary">
                 Overall Completion
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-xs text-[#64748b]">
+              <span className="text-xs text-text-muted">
                 {stats.done}/{stats.total}
               </span>
-              <span className="text-sm font-bold text-[#60a5fa] tabular-nums">
+              <span className="text-sm font-bold text-electric-blue-light tabular-nums">
                 {stats.completionRate}%
               </span>
             </div>

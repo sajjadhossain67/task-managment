@@ -94,7 +94,7 @@ export function EditTaskDialog({
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-lg bg-[#f59e0b]/10">
+            <div className="p-2 rounded-lg bg-warning/10">
               <Pencil className="w-5 h-5 text-[#fbbf24]" />
             </div>
             <div>
@@ -109,7 +109,7 @@ export function EditTaskDialog({
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-1.5">
             <Label htmlFor="edit-title">
-              Task Title <span className="text-[#ef4444]">*</span>
+              Task Title <span className="text-danger">*</span>
             </Label>
             <Input
               id="edit-title"
@@ -124,9 +124,9 @@ export function EditTaskDialog({
           <div className="space-y-1.5">
             <div className="flex justify-between">
               <Label htmlFor="edit-body">
-                Description <span className="text-[#ef4444]">*</span>
+                Description <span className="text-danger">*</span>
               </Label>
-              <span className="text-xs text-[#64748b]">{charCount}/500</span>
+              <span className="text-xs text-text-muted">{charCount}/500</span>
             </div>
             <Textarea
               id="edit-body"
@@ -211,7 +211,7 @@ export function EditTaskDialog({
               type="submit"
               variant="warning"
               disabled={isPending}
-              className="min-w-[120px]"
+              className="min-w-30"
             >
               {isPending ? (
                 <>
