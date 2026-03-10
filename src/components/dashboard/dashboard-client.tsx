@@ -40,16 +40,16 @@ export function DashboardClient() {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <div className="flex items-center gap-3">
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-[#f1f5f9] via-[#e2e8f0] to-[#94a3b8] bg-clip-text text-transparent">
+            <h2 className="text-2xl font-bold bg-linear-to-r from-text-primary via-slate-200 to-text-secondary bg-clip-text text-transparent">
               Task Board
             </h2>
             {tasks && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-[#3b82f6]/15 text-[#60a5fa] border border-[#3b82f6]/25">
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-electric-blue/15 text-electric-blue-light border border-electric-blue/25">
                 {tasks.length} tasks
               </span>
             )}
           </div>
-          <p className="text-sm text-[#64748b] mt-1">
+          <p className="text-sm text-text-muted mt-1">
             Manage, track, and organize your tasks across all projects
           </p>
         </div>
@@ -70,12 +70,12 @@ export function DashboardClient() {
           </Button>
 
           {/* View toggle */}
-          <div className="flex items-center rounded-lg border border-[#2a3347] bg-[#0f1117] p-0.5 gap-0.5">
+          <div className="flex items-center rounded-lg border border-border bg-background p-0.5 gap-0.5">
             <button
               className={`flex items-center gap-1.5 h-8 px-3 text-xs font-medium rounded-md transition-all duration-150 ${
                 viewMode === "table"
-                  ? "bg-[#3b82f6] text-white shadow-sm"
-                  : "text-[#64748b] hover:text-[#94a3b8] hover:bg-[#1e2533]"
+                  ? "bg-electric-blue text-white shadow-sm"
+                  : "text-text-muted hover:text-text-secondary hover:bg-surface-elevated"
               }`}
               onClick={() => setViewMode("table")}
             >
@@ -85,8 +85,8 @@ export function DashboardClient() {
             <button
               className={`flex items-center gap-1.5 h-8 px-3 text-xs font-medium rounded-md transition-all duration-150 ${
                 viewMode === "kanban"
-                  ? "bg-[#3b82f6] text-white shadow-sm"
-                  : "text-[#64748b] hover:text-[#94a3b8] hover:bg-[#1e2533]"
+                  ? "bg-electric-blue text-white shadow-sm"
+                  : "text-text-muted hover:text-text-secondary hover:bg-surface-elevated"
               }`}
               onClick={() => setViewMode("kanban")}
             >
@@ -111,22 +111,22 @@ export function DashboardClient() {
 
       {/* Error state */}
       {tasksError && (
-        <div className="rounded-xl border border-[#ef4444]/30 bg-[#2d0a0a] p-6 flex items-start gap-4">
-          <div className="p-2 rounded-lg bg-[#ef4444]/10">
-            <AlertTriangle className="w-5 h-5 text-[#f87171]" />
+        <div className="rounded-xl border border-danger/30 bg-danger-bg p-6 flex items-start gap-4">
+          <div className="p-2 rounded-lg bg-danger/10">
+            <AlertTriangle className="w-5 h-5 text-red-400" />
           </div>
           <div className="flex-1">
-            <h3 className="text-sm font-semibold text-[#f1f5f9]">
+            <h3 className="text-sm font-semibold text-text-primary">
               Failed to load tasks
             </h3>
-            <p className="text-sm text-[#94a3b8] mt-1">
+            <p className="text-sm text-text-secondary mt-1">
               There was an error fetching tasks from the API. Please check your
               connection and try again.
             </p>
             <Button
               variant="outline"
               size="sm"
-              className="mt-3 border-[#ef4444]/30 text-[#f87171] hover:bg-[#ef4444]/10"
+              className="mt-3 border-danger/30 text-red-400 hover:bg-danger/10"
               onClick={() => refetch()}
             >
               <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
@@ -153,11 +153,11 @@ export function DashboardClient() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {Array.from({ length: 3 }).map((_, i) => (
                 <div key={i} className="space-y-3">
-                  <div className="h-10 rounded-xl bg-[#161b27] border border-[#2a3347] animate-pulse" />
+                  <div className="h-10 rounded-xl bg-surface border border-border animate-pulse" />
                   {Array.from({ length: 3 }).map((_, j) => (
                     <div
                       key={j}
-                      className="h-28 rounded-xl bg-[#161b27] border border-[#2a3347] animate-pulse"
+                      className="h-28 rounded-xl bg-surface border border-border animate-pulse"
                     />
                   ))}
                 </div>
