@@ -1,4 +1,5 @@
-import { CheckSquare, Zap, Database } from "lucide-react";
+import Image from "next/image";
+import { Database } from "lucide-react";
 
 export function AppHeader() {
   return (
@@ -8,11 +9,15 @@ export function AppHeader() {
           {/* Logo */}
           <div className="flex items-center gap-3">
             <div className="relative flex-shrink-0">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#3b82f6] to-[#2563eb] flex items-center justify-center shadow-lg shadow-blue-500/40">
-                <CheckSquare className="w-5 h-5 text-white" />
-              </div>
-              <div className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-[#22c55e] rounded-full border-2 border-[#0f1117] flex items-center justify-center">
-                <Zap className="w-1.5 h-1.5 text-white" />
+              <div className="w-9 h-9 rounded-xl overflow-hidden shadow-lg shadow-blue-500/30">
+                <Image
+                  src="/logo.png"
+                  alt="TaskFlow logo"
+                  width={36}
+                  height={36}
+                  className="w-full h-full object-cover"
+                  priority
+                />
               </div>
             </div>
             <div>

@@ -15,6 +15,10 @@ export const metadata: Metadata = {
   description:
     "A professional task management dashboard built with Next.js, TanStack Query, and shadcn/ui",
   keywords: ["task management", "dashboard", "productivity", "nextjs"],
+  icons: {
+    icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
