@@ -119,11 +119,11 @@ function UserAvatar({ userId, users }: { userId: number; users: User[] }) {
   return (
     <div className="flex items-center gap-2 min-w-0">
       <div
-        className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold flex-shrink-0 ${colorClass}`}
+        className={`w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${colorClass}`}
       >
         {initials}
       </div>
-      <span className="text-xs text-[#94a3b8] truncate hidden sm:block">
+      <span className="text-xs text-text-secondary truncate hidden sm:block">
         {user?.name?.split(" ")[0] ?? `User ${userId}`}
       </span>
     </div>
@@ -223,7 +223,7 @@ export function TaskTable({ tasks, users, isLoading }: TaskTableProps) {
   }) => (
     <button
       onClick={() => handleSort(field)}
-      className={`flex items-center gap-1 text-xs font-semibold text-[#64748b] uppercase tracking-wider hover:text-[#94a3b8] transition-colors ${className}`}
+      className={`flex items-center gap-1 text-xs font-semibold text-text-muted uppercase tracking-wider hover:text-text-secondary transition-colors ${className}`}
     >
       {children}
       <SortIcon field={field} sortField={sortField} sortDir={sortDir} />
@@ -234,7 +234,7 @@ export function TaskTable({ tasks, users, isLoading }: TaskTableProps) {
     <>
       {/* Filters bar */}
       <div className="flex flex-wrap gap-3 mb-4">
-        <div className="relative flex-1 min-w-[200px]">
+        <div className="relative flex-1 min-w-50">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4a5568]" />
           <Input
             placeholder="Search tasks..."
