@@ -54,9 +54,9 @@ function SortIcon({
   if (sortField !== field)
     return <ArrowUpDown className="w-3 h-3 opacity-40" />;
   return sortDir === "asc" ? (
-    <ArrowUp className="w-3 h-3 text-[#3b82f6]" />
+    <ArrowUp className="w-3 h-3 text-electric-blue" />
   ) : (
-    <ArrowDown className="w-3 h-3 text-[#3b82f6]" />
+    <ArrowDown className="w-3 h-3 text-electric-blue" />
   );
 }
 

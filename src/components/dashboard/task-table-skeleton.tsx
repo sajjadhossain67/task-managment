@@ -4,9 +4,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function TaskTableSkeleton() {
   return (
-    <div className="rounded-xl border border-[#2a3347] bg-[#161b27] overflow-hidden">
+    <div className="rounded-xl border border-border bg-surface overflow-hidden">
       {/* Header */}
-      <div className="flex items-center gap-4 p-4 border-b border-[#2a3347]">
+      <div className="flex items-center gap-4 p-4 border-b border-border">
         <Skeleton className="h-9 flex-1 max-w-xs" />
         <Skeleton className="h-9 w-32" />
         <Skeleton className="h-9 w-32" />
@@ -14,7 +14,7 @@ export function TaskTableSkeleton() {
       </div>
 
       {/* Table header */}
-      <div className="grid grid-cols-[2rem_1fr_6rem_6rem_8rem_6rem] gap-4 px-4 py-3 border-b border-[#2a3347]">
+      <div className="grid grid-cols-[2rem_1fr_6rem_6rem_8rem_6rem] gap-4 px-4 py-3 border-b border-border">
         {["w-6", "w-40", "w-16", "w-16", "w-24", "w-16"].map((w, i) => (
           <Skeleton key={i} className={`h-4 ${w}`} />
         ))}
@@ -24,7 +24,7 @@ export function TaskTableSkeleton() {
       {Array.from({ length: 8 }).map((_, i) => (
         <div
           key={i}
-          className="grid grid-cols-[2rem_1fr_6rem_6rem_8rem_6rem] gap-4 px-4 py-4 border-b border-[#2a3347] last:border-0"
+          className="grid grid-cols-[2rem_1fr_6rem_6rem_8rem_6rem] gap-4 px-4 py-4 border-b border-border last:border-0"
         >
           <Skeleton className="h-4 w-6" />
           <div className="space-y-2">
@@ -45,7 +45,7 @@ export function TaskTableSkeleton() {
       ))}
 
       {/* Pagination */}
-      <div className="flex items-center justify-between px-4 py-3 border-t border-[#2a3347]">
+      <div className="flex items-center justify-between px-4 py-3 border-t border-border">
         <Skeleton className="h-4 w-32" />
         <div className="flex gap-2">
           <Skeleton className="h-8 w-20" />

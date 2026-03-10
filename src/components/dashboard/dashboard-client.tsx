@@ -35,9 +35,9 @@ export function DashboardClient() {
   const isLoading = tasksLoading || usersLoading;
 
   return (
-    <div className="space-y-6 animate-fade-in">
+    <div className="w-full max-w-350 mx-auto p-4 md:p-8 space-y-8 animate-fade-in">
       {/* Page header */}
-      <div className="flex flex-wrap items-start justify-between gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-3">
             <h2 className="text-2xl font-bold bg-linear-to-r from-text-primary via-slate-200 to-text-secondary bg-clip-text text-transparent">
