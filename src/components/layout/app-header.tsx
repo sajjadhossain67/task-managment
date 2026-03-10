@@ -4,11 +4,11 @@ import { Database } from "lucide-react";
 export function AppHeader() {
   return (
     <header className="w-full border-b border-border/80 bg-background/90 backdrop-blur-xl sticky top-0 z-40 shadow-lg shadow-black/20">
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <div className="relative flex-shrink-0">
+            <div className="relative shrink-0">
               <div className="w-9 h-9 rounded-xl overflow-hidden shadow-lg shadow-blue-500/30">
                 <Image
                   src="/logo.png"

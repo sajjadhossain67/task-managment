@@ -4,24 +4,25 @@ import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#3b82f6] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f1117] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         default:
-          "bg-[#3b82f6] text-white shadow-lg shadow-blue-500/25 hover:bg-[#2563eb] hover:shadow-blue-500/40 active:scale-95",
+          "bg-indigo-600 text-white shadow-md shadow-indigo-500/20 hover:bg-indigo-500 hover:shadow-indigo-500/30 active:scale-95",
         destructive:
-          "bg-[#ef4444] text-white shadow-sm hover:bg-[#dc2626] active:scale-95",
+          "bg-red-500 text-white shadow-sm hover:bg-red-600 active:scale-95",
         outline:
-          "border border-[#2a3347] bg-transparent text-[#94a3b8] hover:bg-[#1e2533] hover:text-[#f1f5f9] hover:border-[#374159]",
+          "border border-border bg-transparent text-muted-foreground hover:bg-surface-elevated hover:text-text-primary hover:border-border",
         secondary:
-          "bg-[#1e2533] text-[#94a3b8] hover:bg-[#252d3d] hover:text-[#f1f5f9]",
-        ghost: "text-[#94a3b8] hover:bg-[#1e2533] hover:text-[#f1f5f9]",
-        link: "text-[#3b82f6] underline-offset-4 hover:underline",
+          "bg-surface-elevated text-text-secondary hover:bg-surface hover:text-text-primary",
+        ghost:
+          "text-text-muted hover:bg-surface-elevated hover:text-text-primary",
+        link: "text-indigo-400 underline-offset-4 hover:underline hover:text-indigo-300",
         success:
-          "bg-[#22c55e] text-white shadow-sm hover:bg-[#16a34a] active:scale-95",
+          "bg-emerald-500 text-white shadow-sm hover:bg-emerald-600 active:scale-95",
         warning:
-          "bg-[#f59e0b] text-white shadow-sm hover:bg-[#d97706] active:scale-95",
+          "bg-amber-500 text-white shadow-sm hover:bg-amber-600 active:scale-95",
       },
       size: {
         default: "h-9 px-4 py-2",

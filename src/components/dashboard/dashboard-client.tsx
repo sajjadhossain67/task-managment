@@ -35,7 +35,7 @@ export function DashboardClient() {
   const isLoading = tasksLoading || usersLoading;
 
   return (
-    <div className="w-full max-w-350 mx-auto p-4 md:p-8 space-y-8 animate-fade-in">
+    <div className="w-full space-y-6">
       {/* Page header */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
@@ -44,7 +44,7 @@ export function DashboardClient() {
               Task Board
             </h2>
             {tasks && (
-              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-electric-blue/15 text-electric-blue-light border border-electric-blue/25">
+              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 tabular-nums">
                 {tasks.length} tasks
               </span>
             )}
@@ -62,43 +62,39 @@ export function DashboardClient() {
             onClick={() => refetch()}
             disabled={isFetching}
             title="Refresh data"
-            className="h-9 w-9"
+            className="h-9 w-9 shrink-0"
           >
             <RefreshCw
-              className={`w-4 h-4 ${isFetching ? "animate-spin" : ""}`}
+              className={`w-4 h-4 transition-transform duration-500 ${isFetching ? "animate-spin" : ""}`}
             />
           </Button>
 
           {/* View toggle */}
           <div className="flex items-center rounded-lg border border-border bg-background p-0.5 gap-0.5">
-            <button
-              className={`flex items-center gap-1.5 h-8 px-3 text-xs font-medium rounded-md transition-all duration-150 ${
-                viewMode === "table"
-                  ? "bg-electric-blue text-white shadow-sm"
-                  : "text-text-muted hover:text-text-secondary hover:bg-surface-elevated"
-              }`}
-              onClick={() => setViewMode("table")}
-            >
-              <LayoutList className="w-3.5 h-3.5" />
-              Table
-            </button>
-            <button
-              className={`flex items-center gap-1.5 h-8 px-3 text-xs font-medium rounded-md transition-all duration-150 ${
-                viewMode === "kanban"
-                  ? "bg-electric-blue text-white shadow-sm"
-                  : "text-text-muted hover:text-text-secondary hover:bg-surface-elevated"
-              }`}
-              onClick={() => setViewMode("kanban")}
-            >
-              <Columns3 className="w-3.5 h-3.5" />
-              Kanban
-            </button>
+            {(["table", "kanban"] as ViewMode[]).map((mode) => (
+              <button
+                key={mode}
+                onClick={() => setViewMode(mode)}
+                className={`flex items-center gap-1.5 h-8 px-3 text-xs font-medium rounded-md transition-all duration-150 capitalize ${
+                  viewMode === mode
+                    ? "bg-indigo-600 text-white shadow-sm shadow-indigo-500/30"
+                    : "text-text-muted hover:text-text-secondary hover:bg-surface-elevated"
+                }`}
+              >
+                {mode === "table" ? (
+                  <LayoutList className="w-3.5 h-3.5" />
+                ) : (
+                  <Columns3 className="w-3.5 h-3.5" />
+                )}
+                {mode === "table" ? "Table" : "Kanban"}
+              </button>
+            ))}
           </div>
 
           {/* Create button */}
           <Button
             onClick={() => setCreateOpen(true)}
-            className="shadow-lg shadow-blue-500/20 font-semibold"
+            className="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold shadow-md shadow-indigo-500/20 transition-all duration-150"
           >
             <Plus className="w-4 h-4 mr-1.5" />
             New Task
@@ -111,22 +107,22 @@ export function DashboardClient() {
 
       {/* Error state */}
       {tasksError && (
-        <div className="rounded-xl border border-danger/30 bg-danger-bg p-6 flex items-start gap-4">
-          <div className="p-2 rounded-lg bg-danger/10">
-            <AlertTriangle className="w-5 h-5 text-red-400" />
+        <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-5 flex items-start gap-4">
+          <div className="p-2 rounded-lg bg-red-500/10 shrink-0">
+            <AlertTriangle className="w-4 h-4 text-red-400" />
           </div>
-          <div className="flex-1">
+          <div className="flex-1 min-w-0">
             <h3 className="text-sm font-semibold text-text-primary">
               Failed to load tasks
             </h3>
-            <p className="text-sm text-text-secondary mt-1">
+            <p className="text-sm text-text-secondary mt-0.5 leading-relaxed">
               There was an error fetching tasks from the API. Please check your
               connection and try again.
             </p>
             <Button
               variant="outline"
               size="sm"
-              className="mt-3 border-danger/30 text-red-400 hover:bg-danger/10"
+              className="mt-3 border-red-500/20 text-red-400 hover:bg-red-500/10 hover:border-red-500/30"
               onClick={() => refetch()}
             >
               <RefreshCw className="w-3.5 h-3.5 mr-1.5" />
@@ -158,6 +154,7 @@ export function DashboardClient() {
                     <div
                       key={j}
                       className="h-28 rounded-xl bg-surface border border-border animate-pulse"
+                      style={{ animationDelay: `${j * 100}ms` }}
                     />
                   ))}
                 </div>

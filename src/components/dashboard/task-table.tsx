@@ -22,6 +22,7 @@ import type {
   FilterStatus,
   FilterPriority,
 } from "@/lib/types";
+
 import {
   Pencil,
   Trash2,
@@ -53,10 +54,11 @@ function SortIcon({
 }) {
   if (sortField !== field)
     return <ArrowUpDown className="w-3 h-3 opacity-40" />;
+
   return sortDir === "asc" ? (
-    <ArrowUp className="w-3 h-3 text-electric-blue" />
+    <ArrowUp className="w-3 h-3 text-blue-400" />
   ) : (
-    <ArrowDown className="w-3 h-3 text-electric-blue" />
+    <ArrowDown className="w-3 h-3 text-blue-400" />
   );
 }
 
@@ -69,6 +71,7 @@ function StatusBadge({ status }: { status: Task["status"] }) {
     "in-progress": { label: "In Progress", variant: "in-progress" },
     done: { label: "Done", variant: "done" },
   };
+
   const { label, variant } = map[status];
   return <Badge variant={variant}>{label}</Badge>;
 }
@@ -78,11 +81,13 @@ function PriorityBadge({ priority }: { priority: Task["priority"] }) {
     Task["priority"],
     { label: string; variant: "low" | "medium" | "high"; dot: string }
   > = {
-    low: { label: "Low", variant: "low", dot: "bg-[#94a3b8]" },
-    medium: { label: "Medium", variant: "medium", dot: "bg-[#fbbf24]" },
-    high: { label: "High", variant: "high", dot: "bg-[#f87171]" },
+    low: { label: "Low", variant: "low", dot: "bg-slate-400" },
+    medium: { label: "Medium", variant: "medium", dot: "bg-amber-400" },
+    high: { label: "High", variant: "high", dot: "bg-red-400" },
   };
+
   const { label, variant, dot } = map[priority];
+
   return (
     <Badge variant={variant} className="flex items-center gap-1">
       <span className={`w-1.5 h-1.5 rounded-full ${dot}`} />
@@ -93,6 +98,7 @@ function PriorityBadge({ priority }: { priority: Task["priority"] }) {
 
 function UserAvatar({ userId, users }: { userId: number; users: User[] }) {
   const user = users.find((u) => u.id === userId);
+
   const initials =
     user?.name
       ?.split(" ")
@@ -102,16 +108,12 @@ function UserAvatar({ userId, users }: { userId: number; users: User[] }) {
       .toUpperCase() ?? "?";
 
   const colors = [
-    "bg-[#3b82f6] text-white",
-    "bg-[#8b5cf6] text-white",
-    "bg-[#ec4899] text-white",
-    "bg-[#22c55e] text-white",
-    "bg-[#f59e0b] text-white",
-    "bg-[#06b6d4] text-white",
-    "bg-[#ef4444] text-white",
-    "bg-[#84cc16] text-white",
-    "bg-[#a855f7] text-white",
-    "bg-[#f97316] text-white",
+    "bg-blue-500 text-white",
+    "bg-purple-500 text-white",
+    "bg-pink-500 text-white",
+    "bg-green-500 text-white",
+    "bg-orange-500 text-white",
+    "bg-cyan-500 text-white",
   ];
 
   const colorClass = colors[(userId - 1) % colors.length];
@@ -123,14 +125,15 @@ function UserAvatar({ userId, users }: { userId: number; users: User[] }) {
       >
         {initials}
       </div>
-      <span className="text-xs text-text-secondary truncate hidden sm:block">
+
+      <span className="text-xs text-muted-foreground truncate hidden sm:block">
         {user?.name?.split(" ")[0] ?? `User ${userId}`}
       </span>
     </div>
   );
 }
 
-export function TaskTable({ tasks, users, isLoading }: TaskTableProps) {
+export function TaskTable({ tasks, users }: TaskTableProps) {
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<FilterStatus>("all");
   const [filterPriority, setFilterPriority] = useState<FilterPriority>("all");
@@ -142,12 +145,12 @@ export function TaskTable({ tasks, users, isLoading }: TaskTableProps) {
   const [editTask, setEditTask] = useState<Task | null>(null);
   const [deleteTask, setDeleteTask] = useState<Task | null>(null);
 
-  // Filter + sort
   const filtered = useMemo(() => {
     let result = tasks;
 
     if (search.trim()) {
       const q = search.toLowerCase();
+
       result = result.filter(
         (t) =>
           t.title.toLowerCase().includes(q) ||
@@ -165,14 +168,15 @@ export function TaskTable({ tasks, users, isLoading }: TaskTableProps) {
     }
 
     result = [...result].sort((a, b) => {
-      let aVal: string | number = a[sortField] ?? "";
-      let bVal: string | number = b[sortField] ?? "";
+      let aVal: any = a[sortField] ?? "";
+      let bVal: any = b[sortField] ?? "";
 
       if (typeof aVal === "string") aVal = aVal.toLowerCase();
       if (typeof bVal === "string") bVal = bVal.toLowerCase();
 
       if (aVal < bVal) return sortDir === "asc" ? -1 : 1;
       if (aVal > bVal) return sortDir === "asc" ? 1 : -1;
+
       return 0;
     });
 
@@ -192,38 +196,16 @@ export function TaskTable({ tasks, users, isLoading }: TaskTableProps) {
     setPage(1);
   };
 
-  const handleSearch = (v: string) => {
-    setSearch(v);
-    setPage(1);
-  };
-
-  const handleFilterStatus = (v: string) => {
-    setFilterStatus(v as FilterStatus);
-    setPage(1);
-  };
-
-  const handleFilterPriority = (v: string) => {
-    setFilterPriority(v as FilterPriority);
-    setPage(1);
-  };
-
-  const handlePageSize = (v: string) => {
-    setPageSize(Number(v));
-    setPage(1);
-  };
-
   const ColHeader = ({
     field,
     children,
-    className = "",
   }: {
     field: SortField;
     children: React.ReactNode;
-    className?: string;
   }) => (
     <button
       onClick={() => handleSort(field)}
-      className={`flex items-center gap-1 text-xs font-semibold text-text-muted uppercase tracking-wider hover:text-text-secondary transition-colors ${className}`}
+      className="flex items-center gap-1 text-xs font-semibold text-muted-foreground uppercase tracking-wider hover:text-foreground transition"
     >
       {children}
       <SortIcon field={field} sortField={sortField} sortDir={sortDir} />
@@ -232,117 +214,105 @@ export function TaskTable({ tasks, users, isLoading }: TaskTableProps) {
 
   return (
     <>
-      {/* Filters bar */}
-      <div className="flex flex-wrap gap-3 mb-4">
-        <div className="relative flex-1 min-w-50">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#4a5568]" />
-          <Input
-            placeholder="Search tasks..."
-            value={search}
-            onChange={(e) => handleSearch(e.target.value)}
-            className="pl-9"
-          />
+      {/* FILTER BAR */}
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+        <div className="flex items-center gap-2 flex-wrap">
+          <div className="relative w-full max-w-xs">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              placeholder="Search tasks..."
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
+              className="pl-9"
+            />
+          </div>
+
+          <Select
+            value={filterStatus}
+            onValueChange={(v) => {
+              setFilterStatus(v as FilterStatus);
+              setPage(1);
+            }}
+          >
+            <SelectTrigger className="w-35">
+              <SelectValue placeholder="Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Status</SelectItem>
+              <SelectItem value="todo">To Do</SelectItem>
+              <SelectItem value="in-progress">In Progress</SelectItem>
+              <SelectItem value="done">Done</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select
+            value={filterPriority}
+            onValueChange={(v) => {
+              setFilterPriority(v as FilterPriority);
+              setPage(1);
+            }}
+          >
+            <SelectTrigger className="w-35">
+              <SelectValue placeholder="Priority" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Priority</SelectItem>
+              <SelectItem value="low">Low</SelectItem>
+              <SelectItem value="medium">Medium</SelectItem>
+              <SelectItem value="high">High</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-        <Select value={filterStatus} onValueChange={handleFilterStatus}>
-          <SelectTrigger className="w-[140px]">
-            <SelectValue placeholder="All Status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Status</SelectItem>
-            <SelectItem value="todo">📋 To Do</SelectItem>
-            <SelectItem value="in-progress">⚡ In Progress</SelectItem>
-            <SelectItem value="done">✅ Done</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select value={filterPriority} onValueChange={handleFilterPriority}>
-          <SelectTrigger className="w-[140px]">
-            <SelectValue placeholder="All Priority" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Priority</SelectItem>
-            <SelectItem value="low">🟢 Low</SelectItem>
-            <SelectItem value="medium">🟡 Medium</SelectItem>
-            <SelectItem value="high">🔴 High</SelectItem>
-          </SelectContent>
-        </Select>
+
+        <span className="text-xs text-muted-foreground">
+          {filtered.length} task{filtered.length !== 1 && "s"}
+        </span>
       </div>
 
-      {/* Table container */}
-      <div className="rounded-xl border border-[#2a3347] bg-[#161b27] overflow-hidden">
-        {/* Desktop table */}
-        <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b border-[#2a3347]">
-                <th className="px-4 py-3 text-left w-16">
-                  <span className="text-xs font-semibold text-[#64748b] uppercase tracking-wider">
-                    #
-                  </span>
+      {/* TABLE */}
+      <div className="rounded-xl border border-[#2a3347] bg-[#161b27] overflow-hidden isolate">
+        <div className="overflow-x-auto rounded-xl">
+          <table className="w-full border-collapse">
+            <thead className="sticky top-0 z-10 bg-[#161b27] border-b border-[#2a3347]">
+              <tr>
+                <th className="px-4 py-3 text-left w-16 text-xs text-muted-foreground">
+                  #
                 </th>
+
                 <th className="px-4 py-3 text-left">
                   <ColHeader field="title">Title</ColHeader>
                 </th>
+
                 <th className="px-4 py-3 text-left hidden md:table-cell">
                   <ColHeader field="status">Status</ColHeader>
                 </th>
+
                 <th className="px-4 py-3 text-left hidden md:table-cell">
                   <ColHeader field="priority">Priority</ColHeader>
                 </th>
+
                 <th className="px-4 py-3 text-left hidden lg:table-cell">
                   <ColHeader field="userId">Assignee</ColHeader>
                 </th>
-                <th className="px-4 py-3 text-left hidden xl:table-cell">
-                  <span className="text-xs font-semibold text-[#64748b] uppercase tracking-wider">
-                    Created
-                  </span>
-                </th>
-                <th className="px-4 py-3 text-right">
-                  <span className="text-xs font-semibold text-[#64748b] uppercase tracking-wider">
-                    Actions
-                  </span>
+
+                <th className="px-4 py-3 text-right w-24 text-xs text-muted-foreground">
+                  Actions
                 </th>
               </tr>
             </thead>
+
             <tbody>
               {paginated.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-20 text-center">
+                  <td colSpan={6} className="py-20 text-center">
                     <div className="flex flex-col items-center gap-3">
-                      <div className="p-4 rounded-2xl bg-[#161b27] border border-[#2a3347]">
-                        <AlertCircle className="w-8 h-8 text-[#374159]" />
-                      </div>
-                      <div>
-                        <p className="text-[#64748b] text-sm font-medium">
-                          {search ||
-                          filterStatus !== "all" ||
-                          filterPriority !== "all"
-                            ? "No tasks match your filters"
-                            : "No tasks found"}
-                        </p>
-                        {(search ||
-                          filterStatus !== "all" ||
-                          filterPriority !== "all") && (
-                          <p className="text-[#4a5568] text-xs mt-1">
-                            Try adjusting your search or filters
-                          </p>
-                        )}
-                      </div>
-                      {(search ||
-                        filterStatus !== "all" ||
-                        filterPriority !== "all") && (
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="text-[#60a5fa] hover:text-[#93c5fd] hover:bg-[#3b82f6]/10"
-                          onClick={() => {
-                            setSearch("");
-                            setFilterStatus("all");
-                            setFilterPriority("all");
-                          }}
-                        >
-                          Clear filters
-                        </Button>
-                      )}
+                      <AlertCircle className="w-8 h-8 text-muted-foreground" />
+                      <p className="text-sm text-muted-foreground">
+                        No tasks found
+                      </p>
                     </div>
                   </td>
                 </tr>
@@ -350,74 +320,51 @@ export function TaskTable({ tasks, users, isLoading }: TaskTableProps) {
                 paginated.map((task) => (
                   <tr
                     key={task.id}
-                    className="border-b border-[#1a1f2e] last:border-0 hover:bg-[#1e2533]/60 transition-colors duration-100 group"
+                    className="border-b border-[#2a3347] last:border-0 hover:bg-muted/40 transition"
                   >
-                    {/* ID */}
-                    <td className="px-4 py-3.5">
-                      <span className="text-xs font-mono text-[#4a5568] bg-[#0f1117] px-2 py-1 rounded">
-                        #{task.id}
-                      </span>
+                    <td className="px-4 py-3 text-xs text-muted-foreground font-mono">
+                      #{task.id}
                     </td>
 
-                    {/* Title + body */}
-                    <td className="px-4 py-3.5 max-w-[300px]">
-                      <div>
-                        <p className="text-sm font-medium text-[#f1f5f9] line-clamp-1">
-                          {task.title}
-                        </p>
-                        <p className="text-xs text-[#64748b] line-clamp-1 mt-0.5">
-                          {task.body}
-                        </p>
-                        {/* Mobile badges */}
-                        <div className="flex gap-1.5 mt-1.5 md:hidden">
-                          <StatusBadge status={task.status} />
-                          <PriorityBadge priority={task.priority} />
-                        </div>
-                      </div>
+                    <td className="px-4 py-3 max-w-xs">
+                      <p className="text-sm font-medium truncate">
+                        {task.title}
+                      </p>
+                      <p className="text-xs text-muted-foreground truncate">
+                        {task.body}
+                      </p>
                     </td>
 
-                    {/* Status */}
-                    <td className="px-4 py-3.5 hidden md:table-cell">
+                    <td className="px-4 py-3 hidden md:table-cell">
                       <StatusBadge status={task.status} />
                     </td>
 
-                    {/* Priority */}
-                    <td className="px-4 py-3.5 hidden md:table-cell">
+                    <td className="px-4 py-3 hidden md:table-cell">
                       <PriorityBadge priority={task.priority} />
                     </td>
 
-                    {/* Assignee */}
-                    <td className="px-4 py-3.5 hidden lg:table-cell">
+                    <td className="px-4 py-3 hidden lg:table-cell">
                       <UserAvatar userId={task.userId} users={users} />
                     </td>
 
-                    {/* Created */}
-                    <td className="px-4 py-3.5 hidden xl:table-cell">
-                      <span className="text-xs text-[#64748b]">
-                        {format(new Date(task.createdAt), "MMM d, yyyy")}
-                      </span>
-                    </td>
-
-                    {/* Actions */}
-                    <td className="px-4 py-3.5 text-right">
-                      <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <td className="px-4 py-3 text-right">
+                      <div className="flex justify-end gap-1">
                         <Button
-                          variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-[#94a3b8] hover:text-[#fbbf24] hover:bg-[#f59e0b]/10"
+                          variant="ghost"
+                          className="h-8 w-8"
                           onClick={() => setEditTask(task)}
-                          title="Edit task"
                         >
-                          <Pencil className="w-3.5 h-3.5" />
+                          <Pencil className="w-4 h-4" />
                         </Button>
+
                         <Button
-                          variant="ghost"
                           size="icon"
-                          className="h-8 w-8 text-[#94a3b8] hover:text-[#f87171] hover:bg-[#ef4444]/10"
+                          variant="ghost"
+                          className="h-8 w-8 text-red-400 hover:text-red-500"
                           onClick={() => setDeleteTask(task)}
-                          title="Delete task"
                         >
-                          <Trash2 className="w-3.5 h-3.5" />
+                          <Trash2 className="w-4 h-4" />
                         </Button>
                       </div>
                     </td>
@@ -428,93 +375,46 @@ export function TaskTable({ tasks, users, isLoading }: TaskTableProps) {
           </table>
         </div>
 
-        {/* Pagination footer */}
-        <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 border-t border-[#2a3347] bg-[#0f1117]/30">
-          <div className="flex items-center gap-3">
-            <span className="text-xs text-[#64748b]">
-              Showing{" "}
-              <span className="text-[#94a3b8] font-medium">
-                {filtered.length === 0 ? 0 : (page - 1) * pageSize + 1}–
-                {Math.min(page * pageSize, filtered.length)}
-              </span>{" "}
-              of{" "}
-              <span className="text-[#94a3b8] font-medium">
-                {filtered.length}
-              </span>{" "}
-              tasks
-            </span>
-            <Select value={String(pageSize)} onValueChange={handlePageSize}>
-              <SelectTrigger className="w-[70px] h-7 text-xs">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {PAGE_SIZE_OPTIONS.map((s) => (
-                  <SelectItem key={s} value={String(s)}>
-                    {s}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+        {/* PAGINATION */}
+        <div className="flex items-center justify-between px-4 py-3 border-t border-[#2a3347] bg-[#161b27]">
+          <span className="text-xs text-muted-foreground">
+            Page {page} of {totalPages}
+          </span>
 
           <div className="flex items-center gap-1">
             <Button
-              variant="outline"
               size="icon"
-              className="h-7 w-7"
-              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              variant="outline"
+              className="h-8 w-8"
               disabled={page === 1}
+              onClick={() => setPage((p) => p - 1)}
             >
-              <ChevronLeft className="w-3.5 h-3.5" />
+              <ChevronLeft className="w-4 h-4" />
             </Button>
-            {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-              let pageNum: number;
-              if (totalPages <= 5) {
-                pageNum = i + 1;
-              } else if (page <= 3) {
-                pageNum = i + 1;
-              } else if (page >= totalPages - 2) {
-                pageNum = totalPages - 4 + i;
-              } else {
-                pageNum = page - 2 + i;
-              }
-              return (
-                <Button
-                  key={pageNum}
-                  variant={page === pageNum ? "default" : "ghost"}
-                  size="icon"
-                  className="h-7 w-7 text-xs"
-                  onClick={() => setPage(pageNum)}
-                >
-                  {pageNum}
-                </Button>
-              );
-            })}
+
             <Button
-              variant="outline"
               size="icon"
-              className="h-7 w-7"
-              onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+              variant="outline"
+              className="h-8 w-8"
               disabled={page === totalPages}
+              onClick={() => setPage((p) => p + 1)}
             >
-              <ChevronRight className="w-3.5 h-3.5" />
+              <ChevronRight className="w-4 h-4" />
             </Button>
           </div>
         </div>
       </div>
 
-      {/* Edit dialog */}
       <EditTaskDialog
         open={!!editTask}
-        onOpenChange={(open) => !open && setEditTask(null)}
+        onOpenChange={() => setEditTask(null)}
         task={editTask}
         users={users}
       />
 
-      {/* Delete dialog */}
       <DeleteTaskDialog
         open={!!deleteTask}
-        onOpenChange={(open) => !open && setDeleteTask(null)}
+        onOpenChange={() => setDeleteTask(null)}
         task={deleteTask}
       />
     </>

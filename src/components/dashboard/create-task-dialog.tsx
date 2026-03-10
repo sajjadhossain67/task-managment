@@ -79,154 +79,221 @@ export function CreateTaskDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg">
-        <DialogHeader>
-          <div className="flex items-center gap-2">
-            <div className="p-2 rounded-lg bg-electric-blue/10">
-              <Sparkles className="w-5 h-5 text-electric-blue-light" />
-            </div>
-            <div>
-              <DialogTitle>Create New Task</DialogTitle>
-              <DialogDescription>
-                Add a new task to your board. Fill in the details below.
-              </DialogDescription>
-            </div>
-          </div>
-        </DialogHeader>
+      <DialogContent className="max-w-lg gap-0 p-0 overflow-hidden">
+        {/* Top accent stripe */}
+        <div className="h-1 w-full bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500" />
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Title */}
-          <div className="space-y-1.5">
-            <Label htmlFor="title">
-              Task Title <span className="text-danger">*</span>
-            </Label>
-            <Input
-              id="title"
-              placeholder="e.g. Implement authentication flow..."
-              {...register("title")}
-            />
-            {errors.title && (
-              <p className="text-xs text-[#f87171]">{errors.title.message}</p>
-            )}
-          </div>
-
-          {/* Description */}
-          <div className="space-y-1.5">
-            <div className="flex justify-between">
-              <Label htmlFor="body">
-                Description <span className="text-danger">*</span>
-              </Label>
-              <span className="text-xs text-text-muted">{charCount}/500</span>
+        <div className="p-6">
+          <DialogHeader className="mb-5">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 ring-1 ring-indigo-200 dark:ring-indigo-500/20">
+                <Sparkles className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
+              </div>
+              <div>
+                <DialogTitle className="text-base font-semibold">
+                  Create New Task
+                </DialogTitle>
+                <DialogDescription className="text-xs mt-0.5">
+                  Add a new task to your board. Fill in the details below.
+                </DialogDescription>
+              </div>
             </div>
-            <Textarea
-              id="body"
-              placeholder="Describe the task in detail..."
-              rows={4}
-              {...register("body")}
-            />
-            {errors.body && (
-              <p className="text-xs text-[#f87171]">{errors.body.message}</p>
-            )}
-          </div>
+          </DialogHeader>
 
-          {/* Row: Status + Priority */}
-          <div className="grid grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            {/* Title */}
             <div className="space-y-1.5">
-              <Label>Status</Label>
-              <Select
-                defaultValue="todo"
-                onValueChange={(v) =>
-                  setValue("status", v as FormValues["status"])
-                }
+              <Label
+                htmlFor="title"
+                className="text-xs font-medium text-muted-foreground uppercase tracking-wider"
               >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="todo">📋 To Do</SelectItem>
-                  <SelectItem value="in-progress">⚡ In Progress</SelectItem>
-                  <SelectItem value="done">✅ Done</SelectItem>
-                </SelectContent>
-              </Select>
-              {errors.status && (
-                <p className="text-xs text-[#f87171]">
-                  {errors.status.message}
+                Task Title <span className="text-destructive">*</span>
+              </Label>
+              <Input
+                id="title"
+                placeholder="e.g. Implement authentication flow..."
+                className="h-9 text-sm focus-visible:ring-indigo-500/50"
+                {...register("title")}
+              />
+              {errors.title && (
+                <p className="text-xs text-destructive flex items-center gap-1">
+                  <span className="inline-block w-1 h-1 rounded-full bg-destructive" />
+                  {errors.title.message}
                 </p>
               )}
             </div>
 
+            {/* Description */}
             <div className="space-y-1.5">
-              <Label>Priority</Label>
+              <div className="flex justify-between items-center">
+                <Label
+                  htmlFor="body"
+                  className="text-xs font-medium text-muted-foreground uppercase tracking-wider"
+                >
+                  Description <span className="text-destructive">*</span>
+                </Label>
+                <span
+                  className={`text-xs tabular-nums ${charCount > 400 ? "text-amber-500" : "text-muted-foreground"}`}
+                >
+                  {charCount}/500
+                </span>
+              </div>
+              <Textarea
+                id="body"
+                placeholder="Describe the task in detail..."
+                rows={4}
+                className="text-sm resize-none focus-visible:ring-indigo-500/50"
+                {...register("body")}
+              />
+              {errors.body && (
+                <p className="text-xs text-destructive flex items-center gap-1">
+                  <span className="inline-block w-1 h-1 rounded-full bg-destructive" />
+                  {errors.body.message}
+                </p>
+              )}
+            </div>
+
+            {/* Row: Status + Priority */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  Status
+                </Label>
+                <Select
+                  defaultValue="todo"
+                  onValueChange={(v) =>
+                    setValue("status", v as FormValues["status"])
+                  }
+                >
+                  <SelectTrigger className="h-9 text-sm focus:ring-indigo-500/50">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="todo">
+                      <span className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+                        To Do
+                      </span>
+                    </SelectItem>
+                    <SelectItem value="in-progress">
+                      <span className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                        In Progress
+                      </span>
+                    </SelectItem>
+                    <SelectItem value="done">
+                      <span className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                        Done
+                      </span>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                {errors.status && (
+                  <p className="text-xs text-destructive">
+                    {errors.status.message}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-1.5">
+                <Label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                  Priority
+                </Label>
+                <Select
+                  defaultValue="medium"
+                  onValueChange={(v) =>
+                    setValue("priority", v as FormValues["priority"])
+                  }
+                >
+                  <SelectTrigger className="h-9 text-sm focus:ring-indigo-500/50">
+                    <SelectValue placeholder="Select priority" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="low">
+                      <span className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                        Low
+                      </span>
+                    </SelectItem>
+                    <SelectItem value="medium">
+                      <span className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+                        Medium
+                      </span>
+                    </SelectItem>
+                    <SelectItem value="high">
+                      <span className="flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-red-400" />
+                        High
+                      </span>
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            {/* Assignee */}
+            <div className="space-y-1.5">
+              <Label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                Assignee <span className="text-destructive">*</span>
+              </Label>
               <Select
-                defaultValue="medium"
-                onValueChange={(v) =>
-                  setValue("priority", v as FormValues["priority"])
-                }
+                defaultValue="1"
+                onValueChange={(v) => setValue("userId", Number(v))}
               >
-                <SelectTrigger>
-                  <SelectValue placeholder="Select priority" />
+                <SelectTrigger className="h-9 text-sm focus:ring-indigo-500/50">
+                  <SelectValue placeholder="Assign to..." />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="low">🟢 Low</SelectItem>
-                  <SelectItem value="medium">🟡 Medium</SelectItem>
-                  <SelectItem value="high">🔴 High</SelectItem>
+                  {users.map((u) => (
+                    <SelectItem key={u.id} value={String(u.id)}>
+                      {u.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
-            </div>
-          </div>
-
-          {/* Assignee */}
-          <div className="space-y-1.5">
-            <Label>
-              Assignee <span className="text-danger">*</span>
-            </Label>
-            <Select
-              defaultValue="1"
-              onValueChange={(v) => setValue("userId", Number(v))}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Assign to..." />
-              </SelectTrigger>
-              <SelectContent>
-                {users.map((u) => (
-                  <SelectItem key={u.id} value={String(u.id)}>
-                    {u.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {errors.userId && (
-              <p className="text-xs text-[#f87171]">{errors.userId.message}</p>
-            )}
-          </div>
-
-          <DialogFooter className="pt-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => {
-                reset();
-                onOpenChange(false);
-              }}
-              disabled={isPending}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" disabled={isPending} className="min-w-30">
-              {isPending ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Creating...
-                </>
-              ) : (
-                <>
-                  <Plus className="w-4 h-4" />
-                  Create Task
-                </>
+              {errors.userId && (
+                <p className="text-xs text-destructive flex items-center gap-1">
+                  <span className="inline-block w-1 h-1 rounded-full bg-destructive" />
+                  {errors.userId.message}
+                </p>
               )}
-            </Button>
-          </DialogFooter>
-        </form>
+            </div>
+
+            <DialogFooter className="pt-3 border-t gap-2">
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => {
+                  reset();
+                  onOpenChange(false);
+                }}
+                disabled={isPending}
+                className="text-sm"
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={isPending}
+                className="min-w-30 text-sm bg-indigo-600 hover:bg-indigo-500 text-white shadow-sm shadow-indigo-500/20"
+              >
+                {isPending ? (
+                  <>
+                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                    Creating...
+                  </>
+                ) : (
+                  <>
+                    <Plus className="w-3.5 h-3.5" />
+                    Create Task
+                  </>
+                )}
+              </Button>
+            </DialogFooter>
+          </form>
+        </div>
       </DialogContent>
     </Dialog>
   );
