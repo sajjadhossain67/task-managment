@@ -82,8 +82,8 @@ export function CreateTaskDialog({
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <div className="flex items-center gap-2">
-            <div className="p-2 rounded-lg bg-[#3b82f6]/10">
-              <Sparkles className="w-5 h-5 text-[#60a5fa]" />
+            <div className="p-2 rounded-lg bg-electric-blue/10">
+              <Sparkles className="w-5 h-5 text-electric-blue-light" />
             </div>
             <div>
               <DialogTitle>Create New Task</DialogTitle>
@@ -98,7 +98,7 @@ export function CreateTaskDialog({
           {/* Title */}
           <div className="space-y-1.5">
             <Label htmlFor="title">
-              Task Title <span className="text-[#ef4444]">*</span>
+              Task Title <span className="text-danger">*</span>
             </Label>
             <Input
               id="title"
@@ -114,9 +114,9 @@ export function CreateTaskDialog({
           <div className="space-y-1.5">
             <div className="flex justify-between">
               <Label htmlFor="body">
-                Description <span className="text-[#ef4444]">*</span>
+                Description <span className="text-danger">*</span>
               </Label>
-              <span className="text-xs text-[#64748b]">{charCount}/500</span>
+              <span className="text-xs text-text-muted">{charCount}/500</span>
             </div>
             <Textarea
               id="body"
@@ -178,7 +178,7 @@ export function CreateTaskDialog({
           {/* Assignee */}
           <div className="space-y-1.5">
             <Label>
-              Assignee <span className="text-[#ef4444]">*</span>
+              Assignee <span className="text-danger">*</span>
             </Label>
             <Select
               defaultValue="1"
@@ -212,11 +212,7 @@ export function CreateTaskDialog({
             >
               Cancel
             </Button>
-            <Button
-              type="submit"
-              disabled={isPending}
-              className="min-w-[120px]"
-            >
+            <Button type="submit" disabled={isPending} className="min-w-30">
               {isPending ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />

@@ -40,7 +40,7 @@ export function DeleteTaskDialog({
       <DialogContent className="max-w-md">
         <DialogHeader>
           <div className="flex items-center gap-3">
-            <div className="p-3 rounded-xl bg-[#ef4444]/10 border border-[#ef4444]/20">
+            <div className="p-3 rounded-xl bg-danger/10 border border-danger/20">
               <AlertTriangle className="w-6 h-6 text-[#f87171]" />
             </div>
             <div>
@@ -53,15 +53,15 @@ export function DeleteTaskDialog({
         </DialogHeader>
 
         <div className="py-2">
-          <p className="text-sm text-[#94a3b8]">
+          <p className="text-sm text-text-secondary">
             Are you sure you want to delete{" "}
-            <span className="font-semibold text-[#f1f5f9]">
+            <span className="font-semibold text-text-primary">
               &ldquo;{task?.title?.slice(0, 60)}
               {(task?.title?.length ?? 0) > 60 ? "..." : ""}&rdquo;
             </span>
             ?
           </p>
-          <p className="text-xs text-[#64748b] mt-2">
+          <p className="text-xs text-text-muted mt-2">
             Task ID: #{task?.id} · Assigned to User #{task?.userId}
           </p>
         </div>
@@ -80,7 +80,7 @@ export function DeleteTaskDialog({
             variant="destructive"
             onClick={handleDelete}
             disabled={isPending}
-            className="min-w-[120px]"
+            className="min-w-30"
           >
             {isPending ? (
               <>

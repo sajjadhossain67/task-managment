@@ -112,7 +112,7 @@ function TaskCard({
 
   return (
     <Card
-      className={`border-l-4 ${PRIORITY_COLORS[task.priority]} border-[#2a3347] bg-[#1a1f2e] hover:bg-[#1e2533] hover:border-[#374159] cursor-default transition-all duration-150 group shadow-sm hover:shadow-md hover:shadow-black/20`}
+      className={`border-l-4 ${PRIORITY_COLORS[task.priority]} border-border bg-charcoal hover:bg-surface-elevated hover:border-border-light cursor-default transition-all duration-150 group shadow-sm hover:shadow-md hover:shadow-black/20`}
     >
       <CardContent className="p-3.5">
         <div className="flex items-start justify-between gap-2">
@@ -124,7 +124,7 @@ function TaskCard({
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-6 w-6 opacity-0 group-hover:opacity-100 flex-shrink-0"
+                className="h-6 w-6 opacity-0 group-hover:opacity-100 shrink-0"
               >
                 <MoreHorizontal className="w-3.5 h-3.5" />
               </Button>
@@ -157,7 +157,7 @@ function TaskCard({
               )}
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                className="text-[#f87171] focus:text-[#f87171] focus:bg-[#ef4444]/10"
+                className="text-[#f87171] focus:text-[#f87171] focus:bg-danger/10"
                 onClick={() => onDelete(task)}
               >
                 <Trash2 className="w-3.5 h-3.5 mr-2" />
@@ -167,7 +167,7 @@ function TaskCard({
           </DropdownMenu>
         </div>
 
-        <p className="text-xs text-[#64748b] mt-1 line-clamp-2">{task.body}</p>
+        <p className="text-xs text-text-muted mt-1 line-clamp-2">{task.body}</p>
 
         <div className="flex items-center justify-between mt-3">
           <Badge
@@ -217,16 +217,16 @@ export function KanbanBoard({ tasks, users }: KanbanBoardProps) {
                   </span>
                 </div>
                 <span
-                  className={`text-xs font-bold min-w-[1.5rem] text-center px-2 py-0.5 rounded-full ${col.bgColor} ${col.color} border ${col.borderColor}`}
+                  className={`text-xs font-bold min-w-6 text-center px-2 py-0.5 rounded-full ${col.bgColor} ${col.color} border ${col.borderColor}`}
                 >
                   {colTasks.length}
                 </span>
               </div>
 
               {/* Cards */}
-              <div className="flex flex-col gap-2 min-h-[200px]">
+              <div className="flex flex-col gap-2 min-h-50">
                 {colTasks.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center h-24 rounded-xl border border-dashed border-[#2a3347] gap-2">
+                  <div className="flex flex-col items-center justify-center h-24 rounded-xl border border-dashed border-border gap-2">
                     <col.icon className={`w-5 h-5 ${col.color} opacity-30`} />
                     <p className="text-[#4a5568] text-xs">No tasks here</p>
                   </div>
